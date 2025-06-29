@@ -55,10 +55,7 @@ def load_data(args):
     ppcn_matrix = None
     if args.ppcn_table:
         ppcn_matrix = pd.read_csv(args.ppcn_table, sep="\t", index_col=0)
-        if ppcn_matrix.columns.name != 'module':
-            ppcn_matrix = ppcn_matrix.T
-            if ppcn_matrix.columns.name != 'module':
-                raise RuntimeError("Input Error: We looked for a row or column called 'module' in your PPCN table, but didn't find it.")
+        
     elif args.copy_numbers:
         copies = pd.read_csv(args.copy_numbers, sep="\t", index_col=0)
         pops = pd.read_csv(args.populations, sep="\t", index_col=0)
