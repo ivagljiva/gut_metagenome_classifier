@@ -19,7 +19,7 @@ IBD_ENRICHED_MODULES_FILE="TRAINING_DATA/IBD_ENRICHED_MODULES.txt" # the modules
 
 def main(args):
     """Sanity checks the arguments, loads the data and the classifier model, runs the classifier and stores predictions."""
-
+    
     input_sanity_checks(args)
     ppcn = load_data(args)
     predictions = classify(ppcn)
@@ -28,6 +28,8 @@ def main(args):
     print(f"Predictions saved to {args.output_file}")
 
     if args.also_output_ppcn:
+        if not args.ppcn_output_file:
+            args.ppcn_output_file = "PPCN_matrix.txt"
         ppcn.to_csv(args.ppcn_output_file, sep="\t", index_label='sample')
         print(f"PPCN matrix saved to {args.ppcn_output_file}")
 
@@ -117,8 +119,8 @@ if __name__ == "__main__":
                                                           "which to store the classifier predictions.")
     groupC.add_argument("--also-output-ppcn", required=False, action='store_true', help="If you use input option 2, this "
                                                           "flag will ensure that the computed PPCN values are stored in an output file.")
-    groupC.add_argument("--ppcn-output-file", required=False, metavar="FILE", default="PPCN_matrix.txt", help="The name for the computed "
-                                                           "PPCN output matrix, if requested.")
+    groupC.add_argument("--ppcn-output-file", required=False, metavar="FILE", help="The name for the computed PPCN output matrix, "
+                                                           "if requested.")
     args = parser.parse_args()
 
     try:
