@@ -27,6 +27,10 @@ def main(args):
     predictions.to_csv(args.output_file, sep="\t", index_label='sample')
     print(f"Predictions saved to {args.output_file}")
 
+    if args.also_output_ppcn:
+        ppcn.to_csv(args.ppcn_output_file, sep="\t", index_label='sample')
+        print(f"PPCN matrix saved to {args.ppcn_output_file}")
+
 
 def input_sanity_checks(args):
     """Ensures the provided arguments are sensible."""
@@ -37,6 +41,11 @@ def input_sanity_checks(args):
     if (args.copy_numbers and not args.populations):
         raise RuntimeError("Input Error: Providing module copy numbers with --copy-numbers requires that you also provide population sizes "
                            "with the --populations flag.")
+
+    if args.ppcn_table and args.also_output_ppcn:
+        raise RuntimeError("Input Error: the --also-output-ppcn flag doesn't work with --ppcn-table input.")
+    if args.ppcn_output_file and not args.also_output_ppcn:
+        raise RuntimeError("Input Error: if you specify the --ppcn-output-file parameter, you should probably also specify --also-output-ppcn.")
     
 def load_data(args):
     """Reads the input file(s), computes PPCN if necessary, and returns the PPCN matrix."""
@@ -106,7 +115,10 @@ if __name__ == "__main__":
     groupC = parser.add_argument_group("OUTPUT", "What you want to get back from this program.")
     groupC.add_argument("-o", "--output-file", required=False, default="predictions.txt", help="The name of the output file in "
                                                           "which to store the classifier predictions.")
-
+    groupC.add_argument("--also-output-ppcn", required=False, action='store_true', help="If you use input option 2, this "
+                                                          "flag will ensure that the computed PPCN values are stored in an output file.")
+    groupC.add_argument("--ppcn-output-file", required=False, metavar="FILE", default="PPCN_matrix.txt", help="The name for the computed "
+                                                           "PPCN output matrix, if requested.")
     args = parser.parse_args()
 
     try:
