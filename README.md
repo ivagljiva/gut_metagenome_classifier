@@ -28,7 +28,7 @@ python run_classifier.py -h
 
 ## Running the classifier
 
-You need per-population copy numbers (PPCN values) for each of the IBD-enriched modules in each of your metagenome samples. Alternatively, you can work with raw copy numbers (an output of the [anvi'o](https://anvio.org/) program `anvi-estimate-metabolism`) and provide a table of population sizes to normalize with -- here, population size refers to the number of microbial genomes estimated to be present in a given metagenome assembly.
+You need per-population copy numbers (PPCN values) for each of the IBD-enriched modules in each of your metagenome samples. Alternatively, you can work with raw copy numbers (an output of the [anvi'o](https://anvio.org/) program `anvi-estimate-metabolism`) and provide a table of population sizes to normalize with -- here, population size refers to the number of microbial genomes estimated to be present in a given metagenome assembly. There is a list of the IBD-enriched modules that are used as model features [here in this repository](https://github.com/ivagljiva/gut_metagenome_classifier/blob/main/TRAINING_DATA/IBD_ENRICHED_MODULES.txt). Those investigating a different system might require selecting different features and training a new classifier, and in that case I recommend looking at our feature selection, training, and testing strategies in the Jupyter Notebook.
 
 The [reproducible workflow](https://merenlab.org/data/ibd-gut-metabolism/) for the paper describes how we generate these data files, and I recommend following a similar strategy to obtain your input data.
 
@@ -46,4 +46,4 @@ Given a tab-delimited table of module copy numbers (unnormalized) and a table of
 python run_classifier.py --copy-numbers TESTING_DATA/antibiotics-module_stepwise_copy_number-MATRIX.txt --populations TESTING_DATA/02_PALLEJA_SAMPLES_INFO.txt
 ```
 
-Check the program help page for more options.
+Check the program help output for more options.
